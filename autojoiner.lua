@@ -51,7 +51,6 @@ local function autoJoin()
         }
     })
 
-    print(response.StatusCode)
     if response.StatusCode == 200 then
         local messages = HttpServ:JSONDecode(response.Body)
         if #messages > 0 then
