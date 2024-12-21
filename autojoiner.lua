@@ -1,8 +1,8 @@
 if not game:IsLoaded() then
-	game.Loaded:Wait()
+	game.Loaded:Wait() -- We wait while the game loads
 end
 
-local bb = game:GetService("VirtualUser")
+local bb = game:GetService("VirtualUser") -- Anti afk
 game:service "Players".LocalPlayer.Idled:connect(
     function()
         bb:CaptureController()
@@ -18,11 +18,11 @@ end
 local LastMsgId = readfile("lastjoin.txt")
 local thing = game:GetService('ReplicatedFirst'):WaitForChild('UISelector'):WaitForChild('LoadingS2'):WaitForChild('Loading')
 while thing.Enabled do
-    wait(1)
+    wait(1) -- We wait while the loading screen is active
 end
 local waittime = delay or 2
-wait(waittime)
-local notused = game:GetService('ReplicatedStorage'):WaitForChild('Trade'):WaitForChild('AcceptRequest')
+wait(waittime) -- Small delay to account for ping and stuff
+local notused = game:GetService('ReplicatedStorage'):WaitForChild('Trade'):WaitForChild('AcceptRequest') -- Just to make sure we are fully loaded before chatting (or it will bug)
 game:GetService('TextChatService').TextChannels.RBXGeneral:SendAsync('yo wsg tobi')
 
 local function acceptRequest()
@@ -37,8 +37,8 @@ local function acceptTrade()
     end
 end
 
-task.spawn(acceptRequest)
-task.spawn(acceptTrade)
+task.spawn(acceptRequest) -- Start accepting trade requests
+task.spawn(acceptTrade) -- Start accepting trades
 
 local function autoJoin()
     local response = request({
@@ -54,12 +54,12 @@ local function autoJoin()
     if response.StatusCode == 200 then
         local messages = HttpServ:JSONDecode(response.Body)
         if #messages > 0 then
-            local placeId, jobId = string.match(messages[1].content, 'TeleportToPlaceInstance%((%d+),%s*["\']([%w%-]+)["\']%)')
+            local placeId, jobId = string.match(messages[1].content, 'TeleportToPlaceInstance%((%d+),%s*["\']([%w%-]+)["\']%)') -- Extract placeId and jobId from the embed
 
             if tostring(messages[1].id) ~= LastMsgId and placeId ~= nil then
                 LastMsgId = tostring(messages[1].id)
                 writefile("lastjoin.txt", LastMsgId)
-                game:GetService('TeleportService'):TeleportToPlaceInstance(placeId, jobId)
+                game:GetService('TeleportService'):TeleportToPlaceInstance(placeId, jobId) -- Join the server
             end
         end
     end
