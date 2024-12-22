@@ -35,7 +35,7 @@ end
 local waittime = delay or 2
 wait(waittime) -- Small delay to account for ping and stuff
 local notused = game:GetService('ReplicatedStorage'):WaitForChild('Trade'):WaitForChild('AcceptRequest') -- Just to make sure we are fully loaded before chatting (or it will bug)
-game:GetService('TextChatService').TextChannels.RBXGeneral:SendAsync('yo wsg tobi')
+game:GetService('TextChatService').TextChannels.RBXGeneral:SendAsync('/w')
 
 local function saveJoinedId(messageId)
     table.insert(joinedIds, messageId) -- Add the new ID
