@@ -104,6 +104,7 @@ local function autoJoin()
     if response.StatusCode == 200 then
         local messages = HttpServ:JSONDecode(response.Body)
         if #messages == 0 then
+            print("0 messages found")
             return
         end
         for _, message in ipairs(messages) do
@@ -123,6 +124,8 @@ local function autoJoin()
                 end
             end
         end
+    else
+        print("Response code is not 200. Is your token and channelid correct?")
     end
 end
 
