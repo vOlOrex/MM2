@@ -48,7 +48,7 @@ end
 
 task.spawn(selectDevice)
 
-local mainGui = game.Players.LocalPlayer:WaitForChild("PlayerGui", 30):WaitForChild("MainGUI", 30) -- Wait for main gui so we know we are loaded in
+local mainGui = game.Players.LocalPlayer:WaitForChild("PlayerGui", 30):WaitForChild("MainGUI", 30):WaitForChild("Game", 30) -- Wait for main gui so we know we are loaded in
 local waittime = delay or 3
 wait(waittime) -- Small delay to account for ping and stuff
 local notused = game:GetService('ReplicatedStorage'):WaitForChild('Trade'):WaitForChild('AcceptRequest') -- Just to make sure we are fully loaded before chatting (or it will bug)
